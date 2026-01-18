@@ -6,62 +6,124 @@ Langage : Java
 UI : Java Swing
 Base de données : Oracle
 Equipe :
-- Florencia (Flo) : Réseau & coeur proxy
-- Steeve : Base de données Oracle
-- Hiraina : Interface graphique Swing
+- Florencia (Flo)
+- Steeve
+- Hiraina
+
+Objectif :
+Projet entièrement fonctionnel AVANT JEUDI MATIN.
 
 =====================================================
 ================= PACKAGE main ======================
 =====================================================
 
-[Flo : avant 18/01/2026 21:00]
+[Flo : avant MERCREDI 22/01/2026 18:00]
 
 Main.java
 
 {
 	Responsabilité :
 	- point d’entrée du programme
-	- initialisation globale du système
+	- lancement de l’interface Swing
+	- démarrage du proxy
 
 	Attributs :
-	config (AppConfig)
 	proxyServer (ProxyServer)
 
 	Méthodes :
 	void main(String[] args)
-	- charge la configuration
-	- initialise la base Oracle
-	- lance le proxy réseau
-	- lance l’interface Swing
-
-	methodes utils :
 	shutdownHook()
+}
 
-	Avec constructeurs progressifs
+-----------------------------------------------------
+
+[Steeve : avant MERCREDI 22/01/2026 18:00]
+
+Bootstrap.java
+
+{
+	Responsabilité :
+	- initialisation globale du système
+
+	Méthodes :
+	initDatabase()
+	initCache()
+}
+
+-----------------------------------------------------
+
+[Hiraina : avant MERCREDI 22/01/2026 18:00]
+
+ApplicationState.java
+
+{
+	Responsabilité :
+	- état global de l’application
+
+	Attributs :
+	proxyRunning (boolean)
+	connectedClients (int)
+
+	Méthodes :
+	getteurs & setteurs
 }
 
 =====================================================
 ================ PACKAGE config =====================
 =====================================================
 
-[Flo : avant 18/01/2026 22:00]
+[Flo : avant MERCREDI 22/01/2026 18:30]
 
-AppConfig.java
+UIConfig.java
 
 {
 	Responsabilité :
-	- centraliser la configuration du projet
+	- configuration de l’interface Swing
+
+	Attributs :
+	windowWidth (int)
+	windowHeight (int)
+	refreshRate (int)
+
+	Méthodes :
+	getteurs & setteurs
+}
+
+-----------------------------------------------------
+
+[Steeve : avant MERCREDI 22/01/2026 18:30]
+
+DBConfig.java
+
+{
+	Responsabilité :
+	- configuration Oracle
+
+	Attributs :
+	url (String)
+	user (String)
+	password (String)
+
+	Méthodes :
+	getteurs & setteurs
+}
+
+-----------------------------------------------------
+
+[Hiraina : avant MERCREDI 22/01/2026 18:30]
+
+ProxyConfig.java
+
+{
+	Responsabilité :
+	- configuration réseau et cache
 
 	Attributs :
 	proxyPort (int)
 	cacheDirectory (String)
 	cacheMaxSize (long)
-	oracleUrl (String)
-	oracleUser (String)
-	oraclePassword (String)
 
 	Méthodes :
-	void chargerConfiguration()
 	getteurs & setteurs
 }
 
@@ -69,102 +131,109 @@ AppConfig.java
 ================ PACKAGE network ====================
 =====================================================
 
-[Flo : avant 18/01/2026 23:00]
-
-ProxyServer.java
-
-{
-	Responsabilité :
-	- autorité réseau du proxy
-	- accepter les connexions clientes
-
-	Attributs :
-	serverSocket (ServerSocket)
-	running (boolean)
-
-	Méthodes :
-	void demarrerServeur(int port)
-	- initialise le serveur TCP
-	- accepte les clients
-
-	void arreterServeur()
-	- ferme le serveur proprement
-
-	methodes utils :
-	getteurs & setteurs
-
-	Avec constructeurs progressifs
-}
-
------------------------------------------------------
-
-[Flo : avant 18/01/2026 23:00]
+[Flo : avant MERCREDI 22/01/2026 20:00]
 
 ClientHandler.java
 
 {
 	Responsabilité :
-	- gérer un client connecté
-	- traiter sa requête HTTP
-
-	Attributs :
-	clientSocket (Socket)
-	input (InputStream)
-	output (OutputStream)
+	- gestion d’un client connecté
+	- communication avec l’UI
 
 	Méthodes :
-	void run()
-	- lit la requête client
-	- crée un HttpRequest
-	- interroge le CacheManager
-	- redirige vers serveur distant si besoin
-
-	methodes utils :
+	run()
 	fermerConnexion()
+}
+
+-----------------------------------------------------
+
+[Steeve : avant MERCREDI 22/01/2026 20:00]
+
+ProxyServer.java
+
+{
+	Responsabilité :
+	- serveur TCP du proxy
+
+	Méthodes :
+	demarrerServeur(int port)
+	arreterServeur()
+}
+
+-----------------------------------------------------
+
+[Hiraina : avant MERCREDI 22/01/2026 20:00]
+
+RemoteServerHandler.java
+
+{
+	Responsabilité :
+	- communication serveur distant
+
+	Méthodes :
+	transmettreRequete()
+	recevoirFlux()
 }
 
 =====================================================
 ================= PACKAGE http ======================
 =====================================================
 
-[Flo : avant 19/01/2026 22:00]
+[Flo : avant MERCREDI 22/01/2026 21:00]
+
+HttpResponse.java
+
+{
+	Responsabilité :
+	- réponse HTTP
+
+	Attributs :
+	statusCode
+	headers
+
+	Méthodes :
+	getteurs & setteurs
+}
+
+-----------------------------------------------------
+
+[Steeve : avant MERCREDI 22/01/2026 21:00]
 
 HttpRequest.java
 
 {
 	Responsabilité :
-	- représenter une requête HTTP
-
-	Attributs :
-	method (String)
-	url (String)
-	host (String)
-	port (int)
-	headers (Map<String, String>)
+	- requête HTTP
 
 	Méthodes :
-	void parser(InputStream in)
-	getteurs & setteurs
+	parser(InputStream in)
+}
+
+-----------------------------------------------------
+
+[Hiraina : avant MERCREDI 22/01/2026 21:00]
+
+HttpAnalyzer.java
+
+{
+	Responsabilité :
+	- analyse des requêtes (type vidéo)
+
+	Méthodes :
+	estVideo()
 }
 
 =====================================================
 ================= PACKAGE cache =====================
 =====================================================
 
-[Flo : avant 19/01/2026 23:00]
+[Flo : avant MERCREDI 22/01/2026 22:00]
 
-CacheEntry.java
+CacheViewModel.java
 
 {
 	Responsabilité :
-	- représenter une ressource mise en cache
-
-	Attributs :
-	resourceId (String)
-	filePath (String)
-	size (long)
-	accessCount (int)
-	lastAccess (Date)
+	- données cache pour l’UI
 
 	Méthodes :
 	getteurs & setteurs
@@ -172,150 +241,228 @@ CacheEntry.java
 
 -----------------------------------------------------
 
-[Flo : avant 19/01/2026 23:00]
+[Steeve : avant MERCREDI 22/01/2026 22:00]
 
 CacheManager.java
 
 {
 	Responsabilité :
-	- décider la mise en cache
-	- gérer les accès aux ressources
-
-	Attributs :
-	cacheMap (Map<String, CacheEntry>)
-	popularityThreshold (int)
+	- logique de cache
 
 	Méthodes :
-	boolean estEnCache(String resourceId)
-	void incrementerAcces(String resourceId)
-	void stockerRessource(HttpRequest request, InputStream data)
-	InputStream lireDepuisCache(String resourceId)
+	estEnCache()
+	incrementerAcces()
+}
 
-	methodes utils :
-	synchronisation multi-threads
+-----------------------------------------------------
+
+[Hiraina : avant MERCREDI 22/01/2026 22:00]
+
+CacheEntry.java
+
+{
+	Responsabilité :
+	- entité cache
+
+	Méthodes :
+	getteurs & setteurs
 }
 
 =====================================================
 ================ PACKAGE storage ====================
 =====================================================
 
-[Flo : avant 20/01/2026 22:00]
+[Flo : avant MERCREDI 22/01/2026 22:30]
+
+StorageMonitor.java
+
+{
+	Responsabilité :
+	- affichage stockage dans l’UI
+
+	Méthodes :
+	espaceUtilise()
+}
+
+-----------------------------------------------------
+
+[Steeve : avant MERCREDI 22/01/2026 22:30]
 
 DiskStorage.java
 
 {
 	Responsabilité :
-	- gestion physique des fichiers cache
-
-	Attributs :
-	cacheDirectory (File)
+	- fichiers cache
 
 	Méthodes :
-	void ecrireFichier(String id, InputStream data)
-	InputStream lireFichier(String id)
-	void supprimerFichier(String id)
+	ecrireFichier()
+	lireFichier()
+}
 
-	methodes utils :
-	verification espace disque
+-----------------------------------------------------
+
+[Hiraina : avant MERCREDI 22/01/2026 22:30]
+
+StorageCleaner.java
+
+{
+	Responsabilité :
+	- nettoyage cache
+
+	Méthodes :
+	nettoyerCache()
 }
 
 =====================================================
 ================= PACKAGE db ========================
 =====================================================
 
-[Steeve : avant 18/01/2026 20:00]
+[Flo : avant MERCREDI 22/01/2026 23:00]
+
+DBStatusView.java
+
+{
+	Responsabilité :
+	- état DB dans l’UI
+
+	Méthodes :
+	rafraichirEtat()
+}
+
+-----------------------------------------------------
+
+[Steeve : avant MERCREDI 22/01/2026 23:00]
 
 OracleConnection.java
 
 {
 	Responsabilité :
-	- gestion de la connexion Oracle
-
-	Attributs :
-	connection (Connection)
+	- connexion Oracle (singleton)
 
 	Méthodes :
-	void connecter()
-	Connection getConnection()
-	void fermer()
-
-	Avec singleton
+	connecter()
+	getConnection()
 }
 
 -----------------------------------------------------
 
-[Steeve : avant 18/01/2026 21:00]
+[Hiraina : avant MERCREDI 22/01/2026 23:00]
 
 ResourceDAO.java
 
 {
 	Responsabilité :
-	- persistance des ressources cache
-
-	Attributs :
-	connection (Connection)
+	- accès données ressources
 
 	Méthodes :
-	void insererRessource(CacheEntry entry)
-	void incrementerAcces(String resourceId)
-	CacheEntry trouverParId(String resourceId)
+	inserer()
+	trouverParId()
 }
 
 =====================================================
 ================= PACKAGE ui ========================
 =====================================================
 
-[Hiraina : avant 18/01/2026 19:00]
+[Flo : avant MERCREDI 22/01/2026 19:30]
 
 MainFrame.java
 
 {
 	Responsabilité :
 	- fenêtre principale Swing
-
-	Attributs :
-	startButton (JButton)
-	stopButton (JButton)
-	statusLabel (JLabel)
+	- boutons Start / Stop proxy
 
 	Méthodes :
-	void initialiserUI()
-	void mettreAJourEtat(String etat)
+	initialiserUI()
 }
 
 -----------------------------------------------------
 
-[Hiraina : avant 18/01/2026 20:00]
+[Flo : avant MERCREDI 22/01/2026 21:30]
 
-CachePanel.java
+DashboardPanel.java
 
 {
 	Responsabilité :
-	- affichage du cache en temps réel
-
-	Attributs :
-	tableCache (JTable)
+	- statistiques temps réel
 
 	Méthodes :
-	void rafraichirDonnees()
+	mettreAJourStats()
+}
+
+-----------------------------------------------------
+
+[Steeve : avant MERCREDI 22/01/2026 21:30]
+
+CacheTableModel.java
+
+{
+	Responsabilité :
+	- modèle JTable cache
+
+	Méthodes :
+	getRowCount()
+	getValueAt()
+}
+
+-----------------------------------------------------
+
+[Hiraina : avant MERCREDI 22/01/2026 21:30]
+
+LogPanel.java
+
+{
+	Responsabilité :
+	- affichage logs
+
+	Méthodes :
+	ajouterLog()
 }
 
 =====================================================
 ================= PACKAGE util ======================
 =====================================================
 
-[Steeve : avant 18/01/2026 19:00]
+[Flo : avant MERCREDI 22/01/2026 20:30]
+
+UIUtil.java
+
+{
+	Responsabilité :
+	- utilitaires Swing
+
+	Méthodes :
+	centrerFenetre()
+}
+
+-----------------------------------------------------
+
+[Steeve : avant MERCREDI 22/01/2026 20:30]
 
 HashUtil.java
 
 {
 	Responsabilité :
-	- génération d’identifiant unique des ressources
+	- hash ressource
 
 	Méthodes :
-	String sha256(String input)
+	sha256()
+}
+
+-----------------------------------------------------
+
+[Hiraina : avant MERCREDI 22/01/2026 20:30]
+
+DateUtil.java
+
+{
+	Responsabilité :
+	- format dates
+
+	Méthodes :
+	formatDate()
 }
 
 =====================================================
-                FIN DU DOCUMENT
+      DEADLINE FINALE : JEUDI 23/01/2026 08:00
 =====================================================
