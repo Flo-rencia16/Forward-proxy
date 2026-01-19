@@ -2,14 +2,16 @@ package src.main;
 
 import src.ui.app.Proxy;
 import src.ui.frame.MainFrame;
-import src.network.proxyserver.ProxyServer;
-import src.database.OracleConnection;
+import src.network.ProxyServer;
+import src.db.OracleConnection;
 
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.extras.FlatInspector;
 import com.formdev.flatlaf.extras.FlatUIDefaultsInspector;
 
 public class Main {
+
+    private static ProxyServer proxyServer;
     public static void main(String[] args) {
         FlatLightLaf.setup(); // Thème clair
         // FlatDarkLaf.setup(); // Thème sombre
